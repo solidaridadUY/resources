@@ -11,10 +11,11 @@ with open('barrios.csv') as csv_file:
     num_linea = 0
     for row in csv_reader:
         if num_linea != 0:
-            f = open('barrio%s.md' % num_linea,'w')
+            f = open('barrio%s.md' % str(num_linea).zfill(3),'w')
             f.write('---\n')
             f.write('nombre: \"%s\"\n' % row[1])
             f.write('departamento: \"%s\"\n' % row[0])
+            f.write('---\n')
             f.write('\n')
             f.write('Barrio %s\n' % row[1])
             f.write('Departamento de %s\n' % row[0])
