@@ -30,13 +30,14 @@ def descargar_planilla():
     with open('csv/barrios.csv','w') as barrios:
       with open('csv/departamentos.csv','w') as departamentos:
         csv_reader = csv.reader(planilla, delimiter=',')
-        num_org = 0
+        num_fila = 0
         for row in csv_reader:
-          departamentos.write('%s\n' % row[0])
-          barrios.write('%s' % row[0])
-          barrios.write(',')
-          barrios.write('%s\n' % row[1])
-          num_org += 1
+          if num_fila != 0:
+            departamentos.write('%s\n' % row[0])
+            barrios.write('%s' % row[0])
+            barrios.write(',')
+            barrios.write('%s\n' % row[1])
+          num_fila += 1
 
   subprocess.call(["sort", "-u", "csv/barrios.csv", "-o", "csv/barrios.csv"])
   subprocess.call(["sort", "-u", "csv/departamentos.csv", "-o", "csv/departamentos.csv"])
