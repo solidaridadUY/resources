@@ -1,2 +1,5 @@
-organizaciones.csv
-barrios.csv
+csv/*
+orgs/*
+barrios/*
+deptos/*
+__pycache__/
