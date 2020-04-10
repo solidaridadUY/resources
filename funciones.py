@@ -40,6 +40,14 @@ def descargar_planilla():
           num_fila += 1
 
   subprocess.call(["sort", "-u", "csv/barrios.csv", "-o", "csv/barrios.csv"])
+#  with open('csv/barrios.csv','r') as barrios:
+#    csv_reader = csv.reader(barrios, delimiter=',')
+#    num_fila = 0
+#    for row in csv_reader:
+#      if num_fila != 0:
+#        print (len (row))
+#      num_fila += 1
+
   subprocess.call(["sort", "-u", "csv/departamentos.csv", "-o", "csv/departamentos.csv"])
 
 def crear_orgs():
@@ -74,31 +82,29 @@ def crear_orgs():
 def crear_barrios():
   with open('csv/barrios.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
-    num_linea = 0
+    num_barrio = 1
     for row in csv_reader:
-      if num_linea != 0:
-        f = open('barrios/barrio%s.md' % str(num_linea).zfill(3),'w')
-        f.write('---\n')
-        f.write('nombre: \"%s\"\n' % row[1])
-        f.write('departamento: \"%s\"\n' % row[0])
-        f.write('---\n')
-        f.write('\n')
-        f.write('Barrio %s\n' % row[1])
-        f.write('Departamento de %s\n' % row[0])
-        f.close()
-      num_linea += 1
+      f = open('barrios/barrio%s.md' % str(num_barrio).zfill(3),'w')
+      f.write('---\n')
+      f.write('nombre: \"%s\"\n' % row[1])
+      f.write('departamento: \"%s\"\n' % row[0])
+      f.write('---\n')
+      f.write('\n')
+      f.write('Barrio %s\n' % row[1])
+      f.write('Departamento de %s\n' % row[0])
+      f.close()
+      num_barrio += 1
 
 def crear_deptos ():
   with open('csv/departamentos.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
-    num_linea = 0
+    num_depto = 1
     for row in csv_reader:
-      if num_linea != 0:
-        f = open('deptos/depto%s.md' % str(num_linea).zfill(2),'w')
-        f.write('---\n')
-        f.write('nombre: \"%s\"\n' % row[0])
-        f.write('---\n')
-        f.write('\n')
-        f.write('Departamento de %s\n' % row[0])
-        f.close()
-      num_linea += 1
+      f = open('deptos/depto%s.md' % str(num_depto).zfill(2),'w')
+      f.write('---\n')
+      f.write('nombre: \"%s\"\n' % row[0])
+      f.write('---\n')
+      f.write('\n')
+      f.write('Departamento de %s\n' % row[0])
+      f.close()
+      num_depto += 1
