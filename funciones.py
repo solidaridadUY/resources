@@ -25,8 +25,9 @@ def mostrar_error():
 def descargar_planilla():
   r = requests.get('https://docs.google.com/spreadsheets/d/1o9oKU0ehVBzWlgcUZhxMDCi3FuCZIpq3RXtCozMJY6Q/export?format=csv&gid=1766258191')
   r.encoding = 'utf-8'
+  text = r.text.replace('\"', '\\"')
   with open('csv/planilla.csv','w') as planilla:
-    planilla.write('%s' % r.text)
+    planilla.write('%s' % text)
 
   with open('csv/planilla.csv','r') as planilla:
     with open('csv/barrios.csv','w') as barrios:
