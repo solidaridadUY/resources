@@ -20,5 +20,7 @@ elif (argumento == 'crear_todo'):
   crear_orgs()
   crear_barrios()
   crear_deptos()
+elif (argumento == 'export'):
+  crear_export()
 else:
   mostrar_error()

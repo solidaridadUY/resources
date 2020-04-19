@@ -7,6 +7,8 @@ import requests
 import subprocess
 import datetime
 import sys
+import json
+import os
 
 def mostrar_error():
   print ('ERROR - Argumentos incorrectos')
@@ -108,3 +110,49 @@ def crear_deptos ():
       f.write('Departamento de %s\n' % row[0])
       f.close()
       num_depto += 1
+
+# crea un csv y un json para exportar los datos y ser compartidos
+def crear_export ():
+  with open('csv/planilla.csv') as csv_file:
+    #aqui se deben colocar los nombres de las keys que se quieren compartir.
+    #ahora coinciden con los nombres de la planilla menos las ultimas columnas que son internas
+    campos = ['Departamento', 'Barrio/Localidad', 'Organización', 'Actividad/es', 'Necesidades', 'Número de contacto', 'Otro contacto', 'Dirección', 'Horario', 'Aclaraciones Adicionales', 'Cuenta Banco', 'Coordenada Latitud', 'Coordenada Longitud']
+    csv_reader = csv.DictReader(csv_file, campos)
+
+    #archivo de salida csv
+    csv_out_name = 'export/datos.csv'
+    os.makedirs(os.path.dirname(csv_out_name), exist_ok=True)
+    csv_out = open(csv_out_name, 'w')
+
+    writer = csv.DictWriter(csv_out, campos, extrasaction='ignore') #se ignoran los campos que no estan en 'campos'
+    writer.writeheader();
+    num_linea = 0
+    #se crea el csv solo con los campos a compartir
+    for row in csv_reader:
+      if num_linea != 0:
+        writer.writerow(row)
+      num_linea += 1
+    csv_out.close()
+
+  #se crea el json a partir del nuevo csv
+  with open('export/datos.csv') as csv_file:
+    #aqui se deben colocar los nombres de las keys que se quieren compartir.
+    #ahora coinciden con los nombres de la planilla menos las ultimas columnas que son internas
+    campos = ['Departamento', 'Barrio/Localidad', 'Organización', 'Actividad/es', 'Necesidades', 'Número de contacto', 'Otro contacto', 'Dirección', 'Horario', 'Aclaraciones Adicionales', 'Cuenta Banco', 'Coordenada Latitud', 'Coordenada Longitud']
+    csv_reader = csv.DictReader(csv_file, campos)
+
+    #archivo de salida json
+    json_out_name = 'export/datos.json'
+    os.makedirs(os.path.dirname(json_out_name), exist_ok=True)
+    jsonfile = open(json_out_name, 'w')
+
+    jsonfile.write('[\n ')
+    num_linea = 0
+    for row in csv_reader:
+      if num_linea != 0:
+        if num_linea != 1:
+          jsonfile.write(',\n')
+        json.dump(row, jsonfile, ensure_ascii=False, indent=4)
+      num_linea += 1
+    jsonfile.write(']')
+    jsonfile.close()
