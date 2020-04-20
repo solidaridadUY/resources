@@ -25,9 +25,8 @@ def mostrar_error():
 def descargar_planilla():
   r = requests.get('https://docs.google.com/spreadsheets/d/1o9oKU0ehVBzWlgcUZhxMDCi3FuCZIpq3RXtCozMJY6Q/export?format=csv&gid=1766258191')
   r.encoding = 'utf-8'
-  text = r.text.replace('\"', '\\"')
   with open('csv/planilla.csv','w') as planilla:
-    planilla.write('%s' % text)
+    planilla.write('%s' % r.text)
 
   with open('csv/planilla.csv','r') as planilla:
     with open('csv/barrios.csv','w') as barrios:
@@ -55,20 +54,20 @@ def crear_orgs():
         f.write('---\n')
         f.write('layout: organizacion\n')
         f.write('\n')
-        f.write('title: \"%s\"\n' % row[2])
+        f.write('title: \"%s\"\n' % row[2].replace('\"', '\\"'))
         f.write('date: %s\n' % datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S -0300"))
         f.write('\n')
-        f.write('departamento: \"%s\"\n' % row[0])
-        f.write('barrio: \"%s\"\n' % row[1])
-        f.write('actividades: \"%s\"\n' % row[3])
-        f.write('necesidades: \"%s\"\n' % row[4])
-        f.write('telefono_contacto: \"%s\"\n' % row[5])
-        f.write('direccion: \"%s\"\n' % row[7])
+        f.write('departamento: \"%s\"\n' % row[0].replace('\"', '\\"'))
+        f.write('barrio: \"%s\"\n' % row[1].replace('\"', '\\"'))
+        f.write('actividades: \"%s\"\n' % row[3].replace('\"', '\\"'))
+        f.write('necesidades: \"%s\"\n' % row[4].replace('\"', '\\"'))
+        f.write('telefono_contacto: \"%s\"\n' % row[5].replace('\"', '\\"'))
+        f.write('direccion: \"%s\"\n' % row[7].replace('\"', '\\"'))
         f.write('\n')
-        f.write('otros_contactos: \"%s\"\n' % row[6])
-        f.write('horario: \"%s\"\n' % row[8])
-        f.write('aclaraciones: \"%s\"\n' % row[9])
-        f.write('cuenta_bancaria: \"%s\"\n' % row[10])
+        f.write('otros_contactos: \"%s\"\n' % row[6].replace('\"', '\\"'))
+        f.write('horario: \"%s\"\n' % row[8].replace('\"', '\\"'))
+        f.write('aclaraciones: \"%s\"\n' % row[9].replace('\"', '\\"'))
+        f.write('cuenta_bancaria: \"%s\"\n' % row[10].replace('\"', '\\"'))
         f.write('\n')
         f.write('---\n')
         f.close()
