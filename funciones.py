@@ -35,10 +35,10 @@ def descargar_planilla():
         num_fila = 0
         for row in csv_reader:
           if num_fila != 0:
-            departamentos.write('%s\n' % row[0])
-            barrios.write('%s' % row[0])
+            departamentos.write('%s\n' % row[1])
+            barrios.write('%s' % row[1])
             barrios.write(',')
-            barrios.write('%s\n' % row[1])
+            barrios.write('%s\n' % row[2])
           num_fila += 1
 
   subprocess.call(["sort", "-u", "csv/barrios.csv", "-o", "csv/barrios.csv"])
@@ -62,20 +62,20 @@ def crear_orgs():
         f.write('---\n')
         f.write('layout: organizacion\n')
         f.write('\n')
-        f.write('title: \"%s\"\n' % row[2])
+        f.write('title: \"%s\"\n' % row[3])
         f.write('date: %s\n' % datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S -0300"))
         f.write('\n')
-        f.write('departamento: \"%s\"\n' % row[0])
-        f.write('barrio: \"%s\"\n' % row[1])
-        f.write('actividades: \"%s\"\n' % row[3])
-        f.write('necesidades: \"%s\"\n' % row[4])
-        f.write('telefono_contacto: \"%s\"\n' % row[5])
+        f.write('departamento: \"%s\"\n' % row[1])
+        f.write('barrio: \"%s\"\n' % row[2])
+        f.write('actividades: \"%s\"\n' % row[4])
+        f.write('necesidades: \"%s\"\n' % row[5])
+        f.write('telefono_contacto: \"%s\"\n' % row[6])
         f.write('direccion: \"%s\"\n' % row[7])
         f.write('\n')
-        f.write('otros_contactos: \"%s\"\n' % row[6])
+        f.write('otros_contactos: \"%s\"\n' % row[7])
         f.write('horario: \"%s\"\n' % row[8])
-        f.write('aclaraciones: \"%s\"\n' % row[9])
-        f.write('cuenta_bancaria: \"%s\"\n' % row[10])
+        f.write('aclaraciones: \"%s\"\n' % row[10])
+        f.write('cuenta_bancaria: \"%s\"\n' % row[11])
         f.write('\n')
         f.write('---\n')
         f.close()
@@ -89,11 +89,11 @@ def crear_barrios():
       f = open('barrios/barrio%s.md' % str(num_barrio).zfill(3),'w')
       f.write('---\n')
       f.write('nombre: \"%s\"\n' % row[1])
-      f.write('departamento: \"%s\"\n' % row[0])
+      f.write('departamento: \"%s\"\n' % row[1])
       f.write('---\n')
       f.write('\n')
       f.write('Barrio %s\n' % row[1])
-      f.write('Departamento de %s\n' % row[0])
+      f.write('Departamento de %s\n' % row[1])
       f.close()
       num_barrio += 1
 
@@ -138,7 +138,7 @@ def crear_export ():
   with open('export/datos.csv') as csv_file:
     #aqui se deben colocar los nombres de las keys que se quieren compartir.
     #ahora coinciden con los nombres de la planilla menos las ultimas columnas que son internas
-    campos = ['Departamento', 'Barrio/Localidad', 'Organización', 'Actividad/es', 'Necesidades', 'Número de contacto', 'Otro contacto', 'Dirección', 'Horario', 'Aclaraciones Adicionales', 'Cuenta Banco', 'Coordenada Latitud', 'Coordenada Longitud']
+    campos = ['Fecha de actualización', 'Departamento', 'Barrio/Localidad', 'Organización', 'Actividad/es', 'Necesidades', 'Número de contacto', 'Otro contacto', 'Dirección', 'Horario', 'Aclaraciones Adicionales', 'Cuenta Banco', 'Coordenada Latitud', 'Coordenada Longitud']
     csv_reader = csv.DictReader(csv_file, campos)
 
     #archivo de salida json
